@@ -11,7 +11,7 @@
 </style>
 <div class="container">
     <h1 class="text-center">Product Form</h1>
-<form action="/product/" method="post">
+<form action="/product/" method="post" enctype="multipart/form-data">
     @csrf
     <h4><label for="" style="color:#960dad">Select Category:</label></h4>
     <div class="dgrid">
@@ -42,6 +42,10 @@
 <div class="mb-3">
     <h4><label for="mfg" style="color:#960dad"> M.F.D:</label></h4>
     <input type="date" class="form-control" id="mfg" required name="mfg">
+</div>
+<div class="mb-3">
+    <h4><label for="photo" style="color:#960dad"> Photo:</label></h4>
+    <input type="file" class="form-control" id="photo" required name="photo" accept="/images">
 </div>
 <div class="mb-3 text-center">
     <button class="button-91">Save</button>

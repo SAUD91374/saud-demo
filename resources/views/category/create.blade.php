@@ -1,20 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .dgrid{
+        border:1px solid #ddd;
+        padding: 5px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+</style>
 <div class="container">
 <form action="/category" method="POST">
     @csrf
 <div class="mb-3">
     <label for="name"> Category Name:</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category">
+    <input type="text" class="form-control"  style="color:#960dad" id="name" name="name" placeholder="Enter Category">
 </div>
 
 <div class="mb-3">
     <label for="description">Description:</label>
-    <input type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+    <input type="text" class="form-control"  style="color:#960dad" id="description" name="description" placeholder="Enter description">
 </div>
-<div class="mb-3">
-    <button class="button-91">Save</button>
+<div class="mb-3 text-center">
+    <button class="button-91 ">Save</button>
 </div>
 </form>
 </div>
