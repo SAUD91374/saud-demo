@@ -26,7 +26,7 @@
                     <form action="/category/{{$info['id']}}" method="post">
                         @csrf
                         @method('delete')
-                        <button class="btn btn-danger" onclick="return confirm('Do you reakky want to perform this task')">Delete</button>
+                        <button class="btn btn-danger" onclick="return confirm('Do you really want to perform this task')">Delete</button>
                     </form>
                 </td>
                 </tr>

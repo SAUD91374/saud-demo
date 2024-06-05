@@ -10,10 +10,10 @@ class category extends Model
     use HasFactory;
     protected $fillable=['name','description'];
     function allproduct(){
-        return $this->hasmany(categoryproducts::class,'category_id','id');
+        return $this->hasMany(categoryproducts::class,'category_id','id');
     }
     function product(){
-        return $this->hasone(categoryproducts::class,'category_id','id');
+        return $this->hasOne(categoryproducts::class,'category_id','id');
     }
 
 }

@@ -11,12 +11,12 @@
 </style>
 <div class="container">
     <h1 class="text-center">Product Form</h1>
-<form action="/product/" method="post" enctype="multipart/form-data">
+<form action="/product" method="post" enctype="multipart/form-data">
     @csrf
     <h4><label for="" style="color:#960dad">Select Category:</label></h4>
     <div class="dgrid">
         @foreach($cdata as $cinfo)
-            <div><input type="checkbox"  required id="c{{$cinfo['id']}}" name="category_id[]" value="{{$cinfo['id']}}">
+            <div><input type="checkbox"   id="c{{$cinfo['id']}}" name="category_id[]" value="{{$cinfo['id']}}">
                 <label for="c{{$cinfo['id']}}">
                 {{$cinfo['name']}}
             </label>
@@ -25,37 +25,94 @@
         </div>
     <div class="mb-3">
     <h4><label for="name" style="color:#960dad"> Product Name:</label></h4>
-    <input type="text" class="form-control" id="name" required name="name" placeholder="Enter product" >
+    <input type="text" class="form-control" id="name" required name="name" placeholder="Enter product" value="{{old('name')}}" >
 </div>
 <div class="mb-3">
     <h4><label for="price" style="color:#960dad"> Product Price:</label></h4>
-    <input type="number" class="form-control" id="price" required id="price" placeholder="Enter Price" >
+    <input type="number" class="form-control" name="price" id="price" placeholder="Enter Price" value="{{old('price')}}">
 </div>
 <div class="mb-3">
     <h4><label for="discount" style="color:#960dad"> Discount:</label></h4>
-    <input type="number" class="form-control" id="discount" required name="discount" placeholder="Enter Discount">
+    <input type="number" class="form-control" id="discount"  name="discount" placeholder="Enter Discount" value="{{old('discount')}}">
 </div>
 <div class="mb-3">
     <h4><label for="qty" style="color:#960dad"> Quantity:</label></h4>
-    <input type="text" class="form-control" id="qty" name="qty" required placeholder="Enter Quantity ">
+    <input type="text" class="form-control" id="qty" name="qty" required placeholder="Enter Quantity " value="{{old('qty')}}">
 </div>
 <div class="mb-3">
     <h4><label for="mfg" style="color:#960dad"> M.F.D:</label></h4>
-    <input type="date" class="form-control" id="mfg" required name="mfg">
+    <input type="date" class="form-control" id="mfg" required name="mfg"  value="{{old('mfg')?{{old('mfg')}}:date('Y-m-d',time())}}">
 </div>
 <div class="mb-3">
     <h4><label for="photo" style="color:#960dad"> Photo:</label></h4>
-    <input type="file" class="form-control" id="photo" required name="photo" accept="/images">
+    <input type="file" class="form-control" id="photo" name="photo[]" accept="image/*" multiple>
 </div>
-<div class="mb-3 text-center">
-    <button class="button-91">Save</button>
+<div class="buttons-container">
+    <button class="button-arounder">Save</button>
 
 </div>
 </form>
 </div>
 <style>
      /* CSS */
-.button-91 {
+     body {
+  background: hsl(220deg, 10%, 97%);
+  margin: 0;
+  padding: 0;
+}
+
+.buttons-container {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  background: white;
+  border: solid 2px black;
+  padding: .375em 1.125em;
+  font-size: 1rem;
+}
+
+.button-arounder {
+  font-size: 2rem;
+  background: hsl(190deg, 30%, 15%);
+  color: hsl(190deg, 10%, 95%);
+  
+  box-shadow: 0 0px 0px hsla(190deg, 15%, 5%, .2);
+  transfrom: translateY(0);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  
+  --dur: .15s;
+  --delay: .15s;
+  --radius: 16px;
+  
+  transition:
+    border-top-left-radius var(--dur) var(--delay) ease-out,
+    border-top-right-radius var(--dur) calc(var(--delay) * 2) ease-out,
+    border-bottom-right-radius var(--dur) calc(var(--delay) * 3) ease-out,
+    border-bottom-left-radius var(--dur) calc(var(--delay) * 4) ease-out,
+    box-shadow calc(var(--dur) * 4) ease-out,
+    transform calc(var(--dur) * 4) ease-out,
+    background calc(var(--dur) * 4) steps(4, jump-end);
+}
+
+.button-arounder:hover,
+.button-arounder:focus {
+  box-shadow: 0 4px 8px hsla(190deg, 15%, 5%, .2);
+  transform: translateY(-4px);
+  background: hsl(230deg, 50%, 45%);
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+/* .button-91 {
   color: #fff;
   padding: 15px 25px;
   background-color: #960dad;
@@ -74,7 +131,7 @@
   touch-action: manipulation;
 
   cursor: pointer;
-}
+} */
 h1 {
         font-size: 70px;
         font-weight: 600;

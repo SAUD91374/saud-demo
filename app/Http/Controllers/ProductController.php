@@ -6,6 +6,7 @@ use App\Models\product;
 use Illuminate\Http\Request;
 use App\Models\category;
 use App\Models\CategoryProducts;
+use App\Models\product_media;
 
 class ProductController extends Controller
 {
@@ -32,6 +33,7 @@ class ProductController extends Controller
         //
         $cdata=category::all(['id','name']);
         return view('product.create',compact('cdata'));
+        return redirect('/product');
 
     }
 
@@ -43,13 +45,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'name' => "required|min:2|max:40",
+            'price' => 'required',
+        ]);
+        
         $info=[
             'name'=>$request->name,
             'price'=>$request->price,
             'discount'=>$request->discount,
             'qty'=>$request->qty,
-            'mfg'=> $request->mfg
+            'mfg'=> $request->mfg,
+            // 'photo' => $request->photo       
         ];
         $obj=product::create($info);
         if(count($request->category_id)>0){
@@ -61,6 +69,21 @@ class ProductController extends Controller
                 CategoryProducts::create($cpinfo);
             }
         }
+        foreach($request->photo as $img)
+        {
+            $filename=[];
+            $imgname =$img->getClientOriginalName();  
+            $img->move(public_path('photos'), $imgname);
+            $filename[]=$imgname;
+            $isave=[
+                'type'=>substr($imgname,strpos($imgname,".")+1),
+                'image'=>$img,
+                'p_id'=>$obj->id,
+                'file_path'=>$imgname
+            ];
+            product_media::create($isave);
+        }
+        // print_r($request);
         return redirect('/product');
     }
 
@@ -72,7 +95,7 @@ class ProductController extends Controller
      */
     public function show(product $product)
     {
-         return redirect('product.show');
+
     }
 
     /**
@@ -84,7 +107,8 @@ class ProductController extends Controller
     public function edit(product $product)
     {
         //
-        return view('product.edit',['info'=>$product]);
+        $catagory=array_column($product->allcategory->toarray(),'category_id');
+        return view('product.edit',['info'=>$product,'cdata'=>category::all(['id','name']),'category'=>$catagory]);
 
     }
 
@@ -98,10 +122,14 @@ class ProductController extends Controller
     public function update(Request $request, product $product)
     {
         //
-        $product->name=$request->name;
-        $product->description=$request->description;
+            $product->name=$request->name;
+            $product->price=$request->price;
+            $product->discount=$request->discount;
+            $product->qty=$request->qty;
+            $product->mfg=$request->mfg;
+            // $product->photo=$request -> photo;
         $product->save();
-        return redirect('/category');
+        return redirect('/product');
     }
 
     /**

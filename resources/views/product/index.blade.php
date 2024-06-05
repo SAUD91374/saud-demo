@@ -1,19 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container border border-dark" style="box-shadow: 1px 2px 10px">
-    <h1 class="text-center">    
-        Listing Of Products
+<div class="container">
+    <h1 class="text-center">
+        Listing of Products
     </h1>
-    <table class="table table-striped" ><br>
-        <a href="/product/create" class="btn btn-primary btn-lg">Enter New</a><br>
+    <table class="table table-striped border">
+        <a href="/product/create" class="btn btn-primary">Enter New</a><br><br>
         <thead>
+            <tr>
                 <th>S.No</th>
                 <th>Product Name</th>
-                <th>Price</th>
+                <th>Product price</th>
                 <th>Discount</th>
                 <th>Quantity</th>
-                <th>Product Category</th>
+                <th>M.F.D</th>
+                <th>Category</th>
                 <th>Destory</th>
             </tr>
         </thead>
@@ -21,19 +23,25 @@
             @foreach($data as $info)
                 <tr>
                 <td>{{$loop->iteration}}</td>
-               <td> <a href="/product/{{$info['id']}}/edit" class="link-offset-2 link-underline link-underline-opacity-0" title="Edit">{{$info['name']}}</a> </td>
+                <td> <a href="/product/{{$info['id']}}/edit" class="link-offset-2 link-underline link-underline-opacity-0" title="Edit">{{$info['name']}}</a> </td>
                 <td>{{$info['price']}}</td>
-                <td>{{$info['discount']}}</td>
+                <td>{{$info['discount']."%"}}</td>
                 <td>{{$info['qty']}}</td>
+                <td>{{$info['mfg']}}</td>
                 <td>
+                    @php
+                    // $x=array_column($info->allcategory->toArray(),'category_id');
+                    // dd(\App\Models\category::find($x[0])->name);
+                    @endphp
                     @foreach($info->allcategory as $cid)
                     {{$cid['categoryId']['name'].", "}}
                     @endforeach
-                </td>
-                   <td> <form action="/product/{{$info['id']}}" method="post">
+                </td> 
+                <td>
+                    <form action="/product/{{$info['id']}}" method="post">
                         @csrf
                         @method('delete')
-                        <button class="btn btn-danger" onclick="return confirm('Do you really want to delete this record')">Delete</button>
+                        <button class="btn btn-danger" onclick="return confirm('Do you really want to perform this task')">Delete</button>
                     </form>
                 </td>
                 </tr>
@@ -42,12 +50,12 @@
         </tbody>
     </table>
 </div>
-  <style>
+<style>
     h1 {
         font-size: 70px;
         font-weight: 600;
         font-family: 'Roboto', sans-serif;
-        color: aquamarine;
+        color: rgb(83, 42, 139);
         text-transform: uppercase;
         text-shadow: 1px 1px 0px #957dad,
         1px 2px 0px #957dad,
