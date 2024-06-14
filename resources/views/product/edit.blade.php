@@ -11,12 +11,13 @@
 </style>
 <div class="container">
     <h1 class="text-center">Product Form</h1>
-<form action="/product/{{$info['id']}}" method="post" enctype="multipart/form-data">
+<form action="/product/{{$info['id']}}" method="Post" enctype="multipart/form-data">
     @csrf
+    @method('put')
     <h4><label for="" style="color:#960dad">Select Category:</label></h4>
     <div class="dgrid">
         @foreach($cdata as $cinfo)
-            <div><input type="checkbox"   id="c{{$cinfo['id']}}" {{(in_array($cinfo['id'],$category))?"checked":""}}name="category_id[]" value="{{$cinfo['id']}}">
+            <div><input type="checkbox"   id="c{{$cinfo['id']}}" {{(in_array($cinfo['id'],$category))?"checked":""}} name="category_id[]" value="{{$cinfo['id']}}">
                 <label for="c{{$cinfo['id']}}">
                 {{$cinfo['name']}}
             </label>
@@ -36,16 +37,28 @@
     <input type="number" class="form-control" id="discount" value="{{$info['discount']}}" name="discount" placeholder="Enter Discount" value="{{old('discount')}}">
 </div>
 <div class="mb-3">
-    <h4><label for="qty" style="color:#960dad"> Quantity:</label></h4>
-    <input type="text" class="form-control" id="qty" name="qty" value="{{$info['qty']}}" required placeholder="Enter Quantity " value="{{old('qty')}}">
+    <h4><label for="description" style="color:#960dad">Description:</label></h4>
+    <input type="text" class="form-control" id="description" name="description" value="{{$info['description']}}" required placeholder="Enter Quantity " value="{{old('qty')}}">
 </div>
 <div class="mb-3">
     <h4><label for="mfg" style="color:#960dad"> M.F.D:</label></h4>
-    <input type="date" class="form-control" id="mfg" value="{{$info['mfg']}}" required name="mfg">
+    <input type="date" class="form-control" id="mfg" value="{{$info['mfg']}}" name="mfg">
 </div>
+@if($info['photos'])
+<div >
+  
+@foreach($info->photos as $img)
+<div title="Click X for delete this image" id="photo_{{$img['id']}}">
+    <img src="/photos/{{$img['file_path']}}" height="100px">
+    <span onclick="delme({{$img['id']}})" style='font-size:50px; color:red; cursor: pointer;'>&#10006;  
+    </span>
+</div>
+@endforeach
+</div>
+@endif
 <div class="mb-3">
     <h4><label for="photo" style="color:#960dad"> Photo:</label></h4>
-    <input type="file" class="form-control" id="photo" required name="photo[]" accept="image/*" multiple>
+    <input type="file" class="form-control" id="photo"  name="photo[]" accept="image/*" multiple value="/photos/{{$img['id']}}">
 </div>
 <div class="buttons-container">
     <button class="button-91">Save</button>
@@ -100,4 +113,20 @@ h1 {
     }
 
 </style>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    function delme(id){
+        if(confirm("do you really want to delete this image")){
+        $.ajax({
+            url:"/deleteimg/"+id,
+            type:"get",
+            success:function(r){
+                document.getElementById('photo_'+id).remove();
+                alert("Image Deleted successfully");
+            }
+        
+        })
+    }
+    }
+</script>
 @endsection

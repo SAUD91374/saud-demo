@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\category;
 use App\Models\CategoryProducts;
 use App\Models\product_media;
+use App\Helpers\ThumbnailGenerator;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -55,7 +57,7 @@ class ProductController extends Controller
             'name'=>$request->name,
             'price'=>$request->price,
             'discount'=>$request->discount,
-            'qty'=>$request->qty,
+            'description'=>$request->description,
             'mfg'=> $request->mfg,
             // 'photo' => $request->photo       
         ];
@@ -72,7 +74,13 @@ class ProductController extends Controller
         foreach($request->photo as $img)
         {
             $filename=[];
-            $imgname =$img->getClientOriginalName();  
+            // $file = $request->file('phots');
+            $imgname =$img->getClientOriginalName(); 
+            // $file->storeAs('public/photos', $filename); 
+            // $thumbnail = ThumbnailGenerator::generate($file, 300, 200);
+            // Storage::put('public/thumbnails/' . $filename, $thumbnail);
+            // Image::make($request->photo)->save(public_path('photo'.$filename));
+            // Image::make($request->photo)->resize(150, 150)->save(public_path('thumbnail'.$filename));
             $img->move(public_path('photos'), $imgname);
             $filename[]=$imgname;
             $isave=[
@@ -107,8 +115,8 @@ class ProductController extends Controller
     public function edit(product $product)
     {
         //
-        $catagory=array_column($product->allcategory->toarray(),'category_id');
-        return view('product.edit',['info'=>$product,'cdata'=>category::all(['id','name']),'category'=>$catagory]);
+        $category=(array_column($product->allcategory->toArray(),'category_id'));
+        return view('product.edit',['info'=>$product,'cdata'=>category::all(['id','name']),'category'=>$category]);
 
     }
 
@@ -125,11 +133,13 @@ class ProductController extends Controller
             $product->name=$request->name;
             $product->price=$request->price;
             $product->discount=$request->discount;
-            $product->qty=$request->qty;
+            $product->description=$request->description;
             $product->mfg=$request->mfg;
             // $product->photo=$request -> photo;
-        $product->save();
-        return redirect('/product');
+            
+            
+            $product->save();
+            return redirect('/product');
     }
 
     /**
@@ -143,6 +153,11 @@ class ProductController extends Controller
         //
         $product->find($product->{'id'})->delete();
         return redirect('/product')->with(['grt','Data Deleted succesfully']);
+    }
+    public function imageDelete($id){
+       $img= product_media::find($id);
+        unlink("photos/".$img['file_path']);
+        $img->delete();
     }
     
 }

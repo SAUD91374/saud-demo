@@ -36,12 +36,12 @@
     <input type="number" class="form-control" id="discount"  name="discount" placeholder="Enter Discount" value="{{old('discount')}}">
 </div>
 <div class="mb-3">
-    <h4><label for="qty" style="color:#960dad"> Quantity:</label></h4>
-    <input type="text" class="form-control" id="qty" name="qty" required placeholder="Enter Quantity " value="{{old('qty')}}">
+    <h4><label for="description" style="color:#960dad">Description:</label></h4>
+    <input type="text" class="form-control" id="description" name="description" required placeholder="Enter Quantity " value="{{old('qty')}}">
 </div>
 <div class="mb-3">
     <h4><label for="mfg" style="color:#960dad"> M.F.D:</label></h4>
-    <input type="date" class="form-control" id="mfg" required name="mfg"  value="{{old('mfg')?{{old('mfg')}}:date('Y-m-d',time())}}">
+    <input type="date" class="form-control" id="mfg" name="mfg">
 </div>
 <div class="mb-3">
     <h4><label for="photo" style="color:#960dad"> Photo:</label></h4>

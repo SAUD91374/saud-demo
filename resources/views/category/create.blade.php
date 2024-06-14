@@ -14,7 +14,7 @@
     @csrf
 <div class="mb-3">
     <label for="name"> Category Name:</label>
-    <input type="text" class="form-control"  style="color:#960dad" id="name" name="name" placeholder="Enter Category" value="{{old['name']}}">
+    <input type="text" class="form-control"  style="color:#960dad" id="name" name="name" placeholder="Enter Category" >
 </div>
 
 <div class="mb-3">
