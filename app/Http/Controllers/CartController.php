@@ -5,6 +5,7 @@ use App\Models\product;
 
 use App\Models\cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -12,12 +13,15 @@ class CartController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
         //
-        $cartd=cart::all();
-        return view('cart.index',compact('cartd'));
+        $cart = cart::where('user_id',Auth::id())->get();
+        // $pdata=$cart[]->product;
+        // dd($pdata);
+        // $pf=product::all()->where('product_id');
+        return view('cart.index',compact('cart'));
     }
 
     /**
@@ -28,6 +32,8 @@ class CartController extends Controller
     public function create()
     {
         //
+        return redirect('/cart');
+
        
     }
 
@@ -59,6 +65,10 @@ class CartController extends Controller
     public function show(cart $cart)
     {
         //
+        // $cart = cart::all()->where('user_id',Auth::id());
+
+        $pd = Product::where('user_id',Auth::id());
+        return view('cart.index', compact('pd'));
     }
 
     /**
@@ -94,4 +104,5 @@ class CartController extends Controller
     {
         //
     }
+    
 }

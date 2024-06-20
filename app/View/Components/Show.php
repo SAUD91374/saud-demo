@@ -14,10 +14,11 @@ class Show extends Component
     
     public $info;
     public $photo;
-    public function __construct($info,)
+    public function __construct($info)
     {
         //
         $this->info=$info;
+
     //    dd($info);
     }
 

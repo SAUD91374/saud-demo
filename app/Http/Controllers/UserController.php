@@ -15,8 +15,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        $data= product::all();
-        return view('user.index',compact('data'));
+        $pdata= product::all();
+        return view('user.index',compact('pdata'));
 
     }
 
@@ -51,6 +51,8 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        $data= product::all();
+        return view('user.show',compact('data'));
     }
 
     /**

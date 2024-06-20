@@ -29,10 +29,11 @@ Route::get('/deleteimg/{id}',[ProductController::class,'imageDelete']);
 
 Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
 // routes/web.php
-Route::resource('/cart', CartController::class);
 Route::resource('/user', UserController::class);
+Route::resource('/cart', CartController::class);
 
 Route::resource('/cart', CartController::class);
+Route::get('/cart/{id}', [CartController::class, 'show'])->name('cart.index');
 
 // Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 // Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
