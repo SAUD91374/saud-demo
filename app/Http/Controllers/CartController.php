@@ -19,7 +19,7 @@ class CartController extends Controller
         //
         $cart = cart::where('user_id',Auth::id())->get();
         // $pdata=$cart[]->product;
-        // dd($pdata);
+        // dd($cart);
         // $pf=product::all()->where('product_id');
         return view('cart.index',compact('cart'));
     }
@@ -100,9 +100,18 @@ class CartController extends Controller
      * @param  \App\Models\cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cart $cart)
+    public function destroy(cart $cart,$id)
     {
-        //
+        $cartItem = Cart::where('product_id', $id)->first();
+
+        if ($cartItem) {
+            $cartItem->delete();
+            return redirect()->back();
+        }
+
+        // dd($cart);
+        // $cart->find($cart->{'product_id'})->delete();
+        return redirect('/cart');
     }
     
 }

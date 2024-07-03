@@ -1,128 +1,94 @@
-{{-- @dd($pdata); --}}
 @extends('layouts.app')
 
 @section('content')
-<div class="dgrid">
-    {{-- <div class="card" style="width: 18rem;">
-        @if($pdata->photos)
-            <div class="image-gallery">
-                @foreach($pd->photos as $img)
-                    <div title="Product Image" class="image-item" id="{{ $img->id }}">
-                        <img class="slide active" src="/photos/{{ $img->file_path }}" alt="Product Image {{ $img->id }}">
+<div class="container mt-5">
+    <header>
+    <h1 class="text-center" style="box-shadow:1px 2px 10px">Your Cart</h1>
+</header>
+    <div class="row">
+        @foreach($cart as $pdata)
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border" style="box-shadow:1px 2px 10px">
+                @if($pdata->product->photos && $pdata->product->photos->count() > 0)
+                <img src="/photos/{{ $pdata->product->photos->first()->file_path }}" class="card-img-top" alt="Product Image">
+                @else
+                <img src="default-image.jpg" class="card-img-top" alt="Default Image">
+                @endif
+                <div class="card-body">
+                    <h5 class="card-title">{{ $pdata->product->name }}</h5>
+                    <p class="card-text">{{ $pdata->product->description }}</p>
+                    <div class="price-details">
+                        @if($pdata->product->discount > 0)
+                        <p class="product-price">Final Price: 
+                            <span class="product-discounted-price">
+                                ₹{{ $pdata->product->price - ($pdata->product->price * $pdata->product->discount / 100) }}
+                            </span>
+                            <span class="product-original-price">
+                                ₹{{ $pdata->product->price }}
+                            </span>
+                            <span class="product-discount-percent">{{ $pdata->product->discount }}% OFF</span>
+                        </p>
+                        @else
+                        <p class="product-price">
+                            ₹{{ $pdata->product->price }}
+                        </p>
+                        @endif
                     </div>
-                @endforeach
+                </div>
+            <div class="card-footer">
+                <form action="{{ route('cart.destroy', $pdata->product->id) }}" method="post">
+                @csrf
+                @method('delete')
+                <input type="hidden" name="id" value="{{ $pdata->product->id }}">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Do you really want to perform this task?')">Remove</button>
+                    </form>
             </div>
-        @endif
-    </div> --}}
-    @dd($cart);
-    @foreach ($cart->product as $pdata)
-    {{-- @dd($$cart->product); --}}
-    <div class="card-body">
-        <h5 class="card-title">{{$pdata['name'] }}??<span>n/a</span>:</h5>
-        <p class="card-text">{{ $pdata['description']  }}</p>
-    </div>
-    {{-- <ul class="list-group-flush">
-        @if($pd->discount > 0)
-            <p class="pdata-price">Final Price:
-                <span class="pdata-discounted-price">
-                    ₹{{ $pd->price - ($pdata->price * $pdata->discount / 100) }}
-                </span>
-                <span class="pdata-original-price">
-                    ₹{{ $pdata->price }}
-                </span>
-                <span class="pdata-discount-percent">{{ $pdata->discount }}% OFF</span>
-            </p>
-        @else
-            <ul class="pdata-price">
-                ₹{{ $pdata->price }}
-            </ul>
-        @endif
-    </ul> --}}
-    <div class="container">
-        <a href="#" class="btn btn-success">Buy Now</a>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>
-@endforeach
 
 <style>
-.list-group-flush {
+.card-title {
     font-weight: bold;
 }
-.card {
-    margin: 5px;
+
+.price-details {
+    margin-top: 10px;
 }
-.dgrid {
-    border: 1px solid black;
-    padding: 5px;
-    margin: 5px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-}
+
 .product-price {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
-    margin: 0 0 16px;
-    margin-left: 8px;
+    margin-bottom: 0;
 }
+
 .product-discounted-price {
     color: #ff5722;
+    font-size: 20px;
 }
+
 .product-original-price {
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: line-through;
     color: #757575;
-    margin-left: 8px;
+    margin-left: 10px;
 }
+
 .product-discount-percent {
-    font-size: 12px;
+    font-size: 14px;
     color: #4caf50;
-    margin-left: 8px;
+    margin-left: 10px;
 }
-.slider-container {
-    position: absolute;
-    background-color: white;
-    width: 400px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    text-align: center;
+header h1 {
+  font-size: 70px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
-.main-photo {
-    position: relative;
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid #e0e0e0;
-}
-.slide {
-    display: none;
-    width: 100%;
-    height: auto;
-}
-.slide.active {
-    display: block;
-}
-.prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    background-color: rgba(0,0,0,0.5);
-}
-.next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-.prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
-}
+
 </style>
 @endsection
-

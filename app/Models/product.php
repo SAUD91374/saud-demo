@@ -18,5 +18,6 @@ class product extends Model
     function photos(){
         return $this->hasMany(product_media::class,'p_id','id');
     }
+    
 
 }

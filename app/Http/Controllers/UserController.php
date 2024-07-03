@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\product;
+use App\Models\user;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,6 +19,7 @@ class UserController extends Controller
         //
         $pdata= product::all();
         return view('user.index',compact('pdata'));
+        // dd($pdata);
 
     }
 
@@ -48,11 +51,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
-        $data= product::all();
-        return view('user.show',compact('data'));
     }
 
     /**
