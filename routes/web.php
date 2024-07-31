@@ -1,5 +1,7 @@
 <?php
+use App\Http\Controllers\BuyController;
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -28,10 +30,16 @@ Route::middleware('auth')->group(function(){
     // category or product listing
     Route::resource('/category', CategoryController::class);
     Route::resource('/product', ProductController::class);
+    Route::resource('/account', AccountController::class);
     Route::get('/deleteimg/{id}',[ProductController::class,'imageDelete']);
     // Route::resource('/user', UserController::class);
     // don't use of this cart routes that's why commented
     // Route::resource('/cart', CartController::class);
+
+    // Route::resource('/buy', BuyController::class);
+    Route::post('/buy/{id}',[BuyController::class,'placeorder'])->name('buy.store');
+    Route::get('/orderconfirm',[BuyController::class,'orderconfirm'])->name('confirm');
+
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');

@@ -21,7 +21,11 @@
           <a class="nav-link" href="/cart">Your Cart</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Account</a>
+          <a class="nav-link" href="/account">My Account</a>
+          {{-- <form action="/account" method="POST">
+          <input type="hidden" name="user_id" id="user_id" value="{{Auth::id()}}">
+          <button class="nav-link">My Account</button>
+          </form> --}}
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -40,7 +44,7 @@
       <div class="row">
           @foreach($pdata as $product)
           <div class="col-md-4 mb-4">
-              <div class="card h-100" onclick="openModal('{{ $product->id }}', '{{ $product->name }}', '{{ $product->description }}', '{{ $product->price }}')">
+              <div class="card h-100" onclick="openModal('{{ $product->id }}','{{ $product->photos->first()->file_path }}', '{{ $product->name }}', '{{ $product->description }}', '{{ $product->price }}')">
                   <img src="/photos/{{ $product->photos->first()->file_path }}" class="card-img-top" alt="{{ $product->name }}">
                   <div class="card-body">
                       <h5 class="card-title">{{ $product->name }}</h5>
@@ -117,6 +121,11 @@
 </footer>
 <style>
     /* Global Styles */
+    /* .button:hover.stars{
+      display: block;
+      filter: drop-shadow(0 0 10px
+      #fffdef);
+    } */
     
     * {
         box-sizing: border-box;
@@ -391,6 +400,12 @@ a:hover {
   background-clip: text;
   -webkit-background-clip: text;
 }
+.modal img {
+        width: 100%; /* Make sure the image takes the full width of the modal */
+        height: auto; /* Maintain the aspect ratio */
+        max-height: 60vh; /* Limit the height to 60% of the viewport height */
+        object-fit: contain; /* Ensure the image is fully visible */
+    }
     </style>
     <script>
       // function openModal(id, name, description, price) {
@@ -412,16 +427,17 @@ a:hover {
       //     document.getElementById('modal').style.display = 'block';
       //     document.getElementById('overlay').style.display = 'block';
       // }
-      function openModal(id, name, description, price) {
+      function openModal(id,photos, name, description, price) {
     // Fetch the CSRF token dynamically
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     document.getElementById('modal-content').innerHTML = `
         <div class="container border border-dark" style="box-shadow: 1px 2px 10px"> 
+           <img src="/photos/${photos}" alt="${name}" class="img-fluid">
             <h2>${name}</h2>
             <p>${description}</p>
-            <p>Price: ${price}</p>
-            <form action="/cart" method="POST">
+            <p>Price: ${price}</p> 
+            <form action="/cart" method="POST"> 
                 <input type="hidden" name="_token" value="${csrfToken}">
                 <input type="number" class="form-control" name="qty" id="qty" required min="1" value="1">
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">

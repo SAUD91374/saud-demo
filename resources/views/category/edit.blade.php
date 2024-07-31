@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- @dd($info) --}}
 <div class="container">
 <form action="/category/{{$info['id']}}" method="post">
     @csrf
@@ -11,7 +12,8 @@
 </div>
 <div class="mb-3">
     <label for="description">Description:</label>
-    <input type="text" class="form-control" id="description" name="description" placeholder="Enter description" value="{{$info['description']}}">
+    <input type="text"
+     class="form-control" id="description" name="description" placeholder="Enter description" value="{{$info['description']}}">
 </div>
 <div class="mb-3">
     <button class="btn btn-success">Save</button>

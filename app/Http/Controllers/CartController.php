@@ -111,7 +111,7 @@ class CartController extends Controller
 
         // dd($cart);
         // $cart->find($cart->{'product_id'})->delete();
-        return redirect('/cart');
+        // return redirect('/cart');
     }
     
 }

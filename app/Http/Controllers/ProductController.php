@@ -40,7 +40,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage.4
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -62,7 +62,9 @@ class ProductController extends Controller
             // 'photo' => $request->photo       
         ];
         $obj=product::create($info);
-        if(count($request->category_id)>0){
+        if(count($request->category_id)>0
+        
+        ){
             foreach($request->category_id as $cid){
                 $cpinfo=[
                     'category_id'=>$cid,

@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\product;
+
+use App\Models\account;
 use App\Models\user;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class AccountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +16,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        // dd($user);
-        $pdata= product::all();
-        return view('user.index',compact('pdata'));
-        // dd($pdata);
+        $get=user::all();
+        return view('account.index',compact('get'));
 
     }
 
@@ -32,7 +29,6 @@ class UserController extends Controller
     public function create()
     {
         //
-        $data= product::all();
     }
 
     /**
@@ -49,10 +45,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\account  $account
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(account $account)
     {
         //
     }
@@ -60,10 +56,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\account  $account
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(account $account)
     {
         //
     }
@@ -72,10 +68,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\account  $account
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, account $account)
     {
         //
     }
@@ -83,10 +79,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\account  $account
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(account $account)
     {
         //
     }

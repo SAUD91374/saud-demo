@@ -29,7 +29,7 @@
 </div>
 <div class="mb-3">
     <h4><label for="price" style="color:#960dad"> Product Price:</label></h4>
-    <input type="number" class="form-control" name="price" id="price" placeholder="Enter Price" value="{{old('price')}}">
+    <input type="number" class="form-control" name="price" id="price" placeholder="Enter Price" value="{{old('price')}}" min="1">
 </div>
 <div class="mb-3">
     <h4><label for="discount" style="color:#960dad"> Discount:</label></h4>
@@ -37,7 +37,7 @@
 </div>
 <div class="mb-3">
     <h4><label for="description" style="color:#960dad">Description:</label></h4>
-    <input type="text" class="form-control" id="description" name="description" required placeholder="Enter Quantity " value="{{old('qty')}}">
+    <input type="text" class="form-control" id="description" name="description" required placeholder="Enter Description About Product " value="{{old('description')}}">
 </div>
 <div class="mb-3">
     <h4><label for="mfg" style="color:#960dad"> M.F.D:</label></h4>
